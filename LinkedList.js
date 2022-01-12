@@ -129,6 +129,20 @@ class LinkedList {
   size() {
     return this.#size
   }
+
+  toArray() {
+    // create an empty array of length size
+    // In JS, it is no need to initialize the length of the array.
+    // It grows dynamically.
+    let array = new Array(this.#size)
+    var current = this.first
+    let index = 0
+    while (current != null) {
+      array[index++] = current.value
+      current = current.next
+    }
+    return array
+  }
 }
 
 function CustomException(message) {
@@ -156,6 +170,8 @@ console.log(list)
 list.removeLast()
 console.log(list)
 console.log('THE CURRENT SIZE', list.size())
+list.toArray()
+
 var emptylist = new LinkedList()
 try {
   emptylist.removeFirst()
