@@ -143,6 +143,56 @@ class LinkedList {
     }
     return array
   }
+
+  reverse() {
+    if (this.#isEmpty()) return
+    // [10 --> 20 --> 30]
+    // p c
+    // n = c.next
+    // c.next = p
+    // [10 <-- 20 30]
+    //  [30 --> 20 --> 10]
+    let previos = this.first
+    let current = this.first.next
+
+    // Change the direction of the link
+    while (current != null) {
+      let next = current.next
+      previos = current
+      current.next = previos
+      current = next
+    }
+
+    this.last = this.first
+    this.last.next = null
+    this.first = previos
+  }
+
+  getKthFromTheEnd(k) {
+    if (this.#isEmpty()) {
+      throw new CustomException('Illegal State Exception')
+    }
+    // declare two pointers
+    let a = this.first
+    let b = this.first
+
+    for (var i = 0; i < k - 1; i++) {
+      // Move b forward until the right distance from a
+      b = b.next
+      if (b == null) {
+        throw new CustomException('Illegal Argument Exception')
+      }
+    }
+
+    // Now we have a and b pointers at the right distance
+    // move both of them forward until b reaches the last node
+    while (b !== this.last) {
+      a = a.next
+      b = b.next
+    }
+    // once b reach the last node
+    return a.value
+  }
 }
 
 function CustomException(message) {
@@ -185,3 +235,17 @@ singleItemList.removeFirst()
 console.log('singleItemList', singleItemList)
 
 // To run: node LinkedList.js
+
+var reverseList = new LinkedList()
+reverseList.addLast(10)
+reverseList.addLast(20)
+reverseList.addLast(30)
+reverseList.reverse()
+
+var kthList = new LinkedList()
+kthList.addLast(10)
+kthList.addLast(20)
+kthList.addLast(30)
+kthList.addLast(40)
+kthList.addLast(50)
+console.log('kthList', kthList.getKthFromTheEnd(0))
