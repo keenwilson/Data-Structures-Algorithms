@@ -1,3 +1,4 @@
+var Utils = require('./Utils')
 // Each node must contain some value
 // and a pointer to the next node in the list.
 class Node {
@@ -72,7 +73,7 @@ class LinkedList {
 
   removeFirst() {
     if (this.#isEmpty()) {
-      throw new CustomException('No Such Element')
+      throw Utils.CustomException('No Such Element')
     }
 
     // If the list has a single item
@@ -105,7 +106,7 @@ class LinkedList {
 
   removeLast() {
     if (this.#isEmpty()) {
-      throw new CustomException('No Such Element')
+      throw Utils.CustomException('No Such Element')
     }
 
     // If the list has a single node in this list
@@ -170,7 +171,7 @@ class LinkedList {
 
   getKthFromTheEnd(k) {
     if (this.#isEmpty()) {
-      throw new CustomException('Illegal State Exception')
+      throw Utils.CustomException('Illegal State Exception')
     }
     // declare two pointers
     let a = this.first
@@ -180,7 +181,7 @@ class LinkedList {
       // Move b forward until the right distance from a
       b = b.next
       if (b == null) {
-        throw new CustomException('Illegal Argument Exception')
+        throw Utils.CustomException('Illegal Argument Exception')
       }
     }
 
@@ -194,14 +195,6 @@ class LinkedList {
     return a.value
   }
 }
-
-function CustomException(message) {
-  const error = new Error(message)
-  error.code = 'THIS_IS_A_CUSTOM_ERROR_CODE'
-  return error
-}
-
-CustomException.prototype = Object.create(Error.prototype)
 
 var list = new LinkedList()
 list.addLast(10)
