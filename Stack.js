@@ -1,5 +1,5 @@
-var CustomException = require('./CustomException')
-throw new CustomException('Hello World')
+var Utils = require('./Utils')
+
 // The Array class has 2 methods that provide stack functionality
 // push() and pop()
 let stack = []
@@ -15,6 +15,9 @@ let top = stack.pop() // Remove and return the last item
 
 class StringReverser {
   static reverse(input) {
+    if (!input) {
+      throw Utils.CustomException('No Input String')
+    }
     // convert input string into an array
     let inputArray = [...input]
     let stack = []
@@ -37,3 +40,10 @@ class StringReverser {
 }
 const reversedString = StringReverser.reverse('abcd')
 console.log('reversedString', reversedString)
+try {
+  const noString = StringReverser.reverse('')
+} catch (error) {
+  console.log(error.code, error.message)
+}
+
+// Whether the pair and order of bracket are balanced
