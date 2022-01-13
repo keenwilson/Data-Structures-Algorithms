@@ -89,12 +89,45 @@ function BalandedExpression() {
   }
   this.isBalanced = isBalanced
 }
-const myPrototype = new BalandedExpression()
-const firstExample = myPrototype.isBalanced('(([1] + <2>)) [a]')
-console.log('(([1] + <2>)) [a]', firstExample, 'should be true')
-const second = myPrototype.isBalanced('(')
-console.log('(', second, 'should be false')
-const third = myPrototype.isBalanced('[[)]')
-console.log('[[)]', third, 'should be false')
-const forth = myPrototype.isBalanced('{[]}')
-console.log('{[]}', forth, 'should be true')
+// const myPrototype = new BalandedExpression()
+// const firstExample = myPrototype.isBalanced('(([1] + <2>)) [a]')
+// console.log('(([1] + <2>)) [a]', firstExample, 'should be true')
+// const second = myPrototype.isBalanced('(')
+// console.log('(', second, 'should be false')
+// const third = myPrototype.isBalanced('[[)]')
+// console.log('[[)]', third, 'should be false')
+// const forth = myPrototype.isBalanced('{[]}')
+// console.log('{[]}', forth, 'should be true')
+
+function StackImplementation() {
+  let items = Array(5)
+  console.log('StackImplementation items', items)
+  let count = 0
+  const push = (item) => {
+    if (count == items.length) {
+      throw Utils.CustomException('Stack Overflow Error')
+    }
+    items[count++] = item
+  }
+  const pop = () => {
+    if (count == 0) {
+      throw Utils.CustomException('Illefal State Exception')
+    }
+    return items[--count]
+  }
+
+  this.items = items
+  this.push = push
+  this.pop = pop
+}
+const myStackImplementation = new StackImplementation()
+myStackImplementation.push(10)
+myStackImplementation.push(20)
+console.log('first', myStackImplementation.items)
+myStackImplementation.push(30)
+myStackImplementation.push(40)
+myStackImplementation.push(50)
+
+const popNumber = myStackImplementation.pop()
+console.log('popNumber', popNumber)
+console.log('second', myStackImplementation.items)
