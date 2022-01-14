@@ -123,9 +123,79 @@ class QueueWithTwoStacks {
   }
 }
 
-const qwts = new QueueWithTwoStacks()
-qwts.enqueue(10)
-qwts.enqueue(20)
-qwts.enqueue(30)
-const first = qwts.dequeue()
-console.log('first', first)
+// const qwts = new QueueWithTwoStacks()
+// qwts.enqueue(10)
+// qwts.enqueue(20)
+// qwts.enqueue(30)
+// const first = qwts.dequeue()
+// console.log('first', first)
+
+class PriorityQueue {
+  constructor(capacity) {
+    let items = Array(capacity)
+    let _count = 0
+
+    const isEmpty = () => {
+      return _count == 0
+    }
+    const remove = () => {
+      console.log('remove is called')
+      if (isEmpty()) {
+        throw Utils.CustomException('Illegal state exception - count is zero')
+      }
+
+      return items[--_count]
+    }
+
+    const shiftItemsToInsert = (item) => {
+      // This for-loop is for shifting items
+      let i
+      for (i = _count - 1; i >= 0; i--) {
+        // each iteration
+        // get item at the current index
+        // If the item is greater than the value inserted
+        // shift this item to the next index
+        if (items[i] > item) {
+          items[i + 1] = items[i]
+        } else {
+          // Insert a new item
+          break
+        }
+      }
+      // return index to insert new item
+      return i + 1
+    }
+
+    const isFull = () => {
+      return _count == items.length
+    }
+
+    const add = (item) => {
+      if (isFull()) {
+        throw Utils.CustomException('Illegal state exception - array is full')
+      }
+      // iterate the array from the end
+      //  and find the right position to insert a new item
+      let i = shiftItemsToInsert(item)
+
+      // Insert a new item
+      items[i + 1] = item
+      _count++
+    }
+
+    this.add = add
+    this.remove = remove
+    this.isEmpty = isEmpty
+  }
+}
+
+const priority = new PriorityQueue(5)
+priority.add(5)
+priority.add(3)
+priority.add(6)
+priority.add(1)
+priority.add(4)
+while (!priority.isEmpty()) {
+  const first = priority.remove()
+  console.log('first', first)
+}
