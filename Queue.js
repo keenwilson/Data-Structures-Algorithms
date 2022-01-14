@@ -76,16 +76,56 @@ class ArrayQueue {
     this.dequeue = dequeue
   }
 }
-const example = new ArrayQueue(5)
-example.enqueue(10)
-example.enqueue(20)
-example.enqueue(30)
-console.log(example.items)
-example.dequeue()
-example.dequeue()
-console.log(example.items)
-example.enqueue(40)
-example.enqueue(50)
-example.enqueue(60)
-example.enqueue(70)
-console.log(example.items)
+// const example = new ArrayQueue(5)
+// example.enqueue(10)
+// example.enqueue(20)
+// example.enqueue(30)
+// console.log(example.items)
+// example.dequeue()
+// example.dequeue()
+// console.log(example.items)
+// example.enqueue(40)
+// example.enqueue(50)
+// example.enqueue(60)
+// example.enqueue(70)
+// console.log(example.items)
+
+class QueueWithTwoStacks {
+  constructor() {
+    let _stack1 = []
+    let _stack2 = []
+
+    const enqueue = (item) => {
+      _stack1.push(item)
+    }
+
+    const _moveStack1toStack2 = () => {
+      console.log('_moveStack1toStack2 is called')
+      if (_stack2.length === 0) {
+        // stack2 is empty
+        // move all items from stack1 to stack2
+        while (_stack1.length !== 0) {
+          _stack2.push(_stack1.pop())
+        }
+      }
+    }
+    const dequeue = () => {
+      // if either stack is empty
+      if (_stack1.length === 0 && _stack2.length === 0) {
+        throw Utils.CustomException('Illegal State Exception')
+      }
+      _moveStack1toStack2()
+
+      return _stack2.pop()
+    }
+    this.enqueue = enqueue
+    this.dequeue = dequeue
+  }
+}
+
+const qwts = new QueueWithTwoStacks()
+qwts.enqueue(10)
+qwts.enqueue(20)
+qwts.enqueue(30)
+const first = qwts.dequeue()
+console.log('first', first)
