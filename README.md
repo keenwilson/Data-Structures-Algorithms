@@ -8,3 +8,11 @@
 - Stacks
  -Queues
 - Hash Tables
+
+### non-linear data structures and their algorithms:
+
+- Binary Trees
+-AVL Trees
+- Heaps
+- Tries
+- Graphs
