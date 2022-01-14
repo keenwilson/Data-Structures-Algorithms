@@ -37,9 +37,55 @@ class QueuePrototype {
     this.reverse = reverse
   }
 }
-const reverseQueue = new QueuePrototype()
-reverseQueue.add(10)
-reverseQueue.add(20)
-reverseQueue.add(30)
-console.log('queue', reverseQueue.queue)
-console.log('reversed', reverseQueue.reverse(reverseQueue.queue))
+// const reverseQueue = new QueuePrototype()
+// reverseQueue.add(10)
+// reverseQueue.add(20)
+// reverseQueue.add(30)
+// console.log('queue', reverseQueue.queue)
+// console.log('reversed', reverseQueue.reverse(reverseQueue.queue))
+
+class ArrayQueue {
+  constructor(capacity) {
+    let items = Array(capacity)
+    let _count = 0
+    let _front = 0
+    let _rear = 0
+
+    const enqueue = (item) => {
+      console.log('item', item)
+      // If the queue is full
+      if (_count == items.length) throw Utils.CustomException('Queue is full')
+      items[_rear] = item
+      _rear = (_rear + 1) % items.length
+      console.log('new rear', _rear)
+      _count++
+    }
+    const dequeue = () => {
+      // return an item at the front of the queue
+      let item = items[_front]
+      console.log('item at the front', item)
+      items[_front] = 0
+      _front = (_front + 1) % items.length
+
+      --_count
+      return item
+    }
+
+    this.items = items
+    this.enqueue = enqueue
+    this.dequeue = dequeue
+  }
+}
+const example = new ArrayQueue(5)
+example.enqueue(10)
+example.enqueue(20)
+example.enqueue(30)
+console.log(example.items)
+example.dequeue()
+example.dequeue()
+console.log(example.items)
+example.enqueue(40)
+example.enqueue(50)
+example.enqueue(60)
+example.enqueue(70)
+console.log(example.items)
