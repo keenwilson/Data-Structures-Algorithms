@@ -145,7 +145,6 @@ class HashTable {
       entries[index].push({ [k]: v })
     }
     this.put = (k, v) => {
-      // where in the entries array we should store a key-value pair
       let index = this._hash(k)
       if (!entries[index]) {
         // Initialize that cell in the array
@@ -176,13 +175,22 @@ class HashTable {
       }
       console.log('entries', entries)
     }
+
+    this._getOrCreateBucket = (k) => {
+      let index = this._hash(k)
+      let bucket = entries[index]
+      if (!bucket) {
+        entries[index] = []
+      }
+
+      return bucket
+    }
     this._getBucket = (k) => {
       return entries[this._hash(k)]
     }
 
     this._getEntry = (k) => {
       let bucket = this._getBucket(k)
-
       if (bucket) {
         for (let i = 0; i < bucket.length; i++) {
           if (bucket[i].hasOwnProperty(k)) {
