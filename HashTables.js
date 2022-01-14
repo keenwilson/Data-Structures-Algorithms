@@ -135,8 +135,9 @@ class HashTable {
   // [ LL, LL, LL, LL]
   constructor() {
     let entries = Array(5)
-    let map = {}
-    const _hash = (key) => {
+
+    this._hash = (key) => {
+      // Figure out which index to store this key-value pair
       let positiveKey = Math.abs(key)
       return positiveKey % entries.length
     }
@@ -145,40 +146,82 @@ class HashTable {
     }
     this.put = (k, v) => {
       // where in the entries array we should store a key-value pair
-      let index = _hash(k)
-      console.log('index from hash', index)
-      console.log('entries', entries)
+      let index = this._hash(k)
       if (!entries[index]) {
-        // set to the new LL
+        // Initialize that cell in the array
         entries[index] = []
+        console.log('add', k, v, index)
         this._addLast(k, v, index)
       } else {
+        console.log('index exists', index)
         let bucket = entries[index]
         for (let entry of bucket) {
-          console.log('entry in bucket', entry)
+          console.log('entry.hasOwnProperty(k)', entry.hasOwnProperty(k))
           if (entry.hasOwnProperty(k)) {
             console.log('same key found in bucket', entry, k)
             // Same key is found
             // Update the value to the new value
+            console.log('Update the value to the new value')
             entry[k] = v
+            console.log('Update the value to the new value', entry)
           } else {
+            // If we dont' find an entry with the same key
+            // add new key-value pair to the end of this new LL
+            console.log('add', k, v, index)
             this._addLast(k, v, index)
+            console.log('entries', entries)
+            return
           }
         }
       }
-
-      // // If we dont' find an entry with the same key
-      // // add new key-value pair to the end of this new LL
-      // let entry = { [k]: v }
-      // console.log('add new key-value to ', entry)
-      // bucket.push(entry)
-
-      // // Update
-      // entries[index] = bucket
       console.log('entries', entries)
     }
-    const get = (k) => {}
-    const remove = (k) => {}
+    this._getBucket = (k) => {
+      return entries[this._hash(k)]
+    }
+
+    this._getEntry = (k) => {
+      let bucket = this._getBucket(k)
+
+      if (bucket) {
+        for (let i = 0; i < bucket.length; i++) {
+          if (bucket[i].hasOwnProperty(k)) {
+            console.log('bucket[i].hasOwnProperty(k)', bucket[i], k)
+            return bucket[i]
+          }
+        }
+      }
+      return null
+    }
+    this.get = (k) => {
+      let entry = this._getEntry(k)
+      return entry ? entry[k] : null
+    }
+    this.remove = (k) => {
+      let entry = this._getEntry(k)
+      if (!entry) {
+        throw Utils.CustomException('No entry with key')
+      }
+      let index = this._hash(k)
+      console.log('key', k, 'looking at index', index)
+
+      let bucket = entries[index]
+      console.log('bucket at that index', bucket)
+      if (!bucket) {
+        throw Utils.CustomException('No bucket at the index')
+      }
+
+      for (let i = 0; i < bucket.length; i++) {
+        if (bucket[i].hasOwnProperty(k)) {
+          console.log('bucket[i].hasOwnProperty(k)', bucket[i], k)
+          bucket.splice(i, 1)
+          break
+        }
+      }
+
+      entries[index] = bucket
+      console.log('entries', entries)
+    }
   }
 }
 
@@ -187,3 +230,13 @@ testHashTable.put(1, 'Mosh')
 testHashTable.put(2, 'Josh')
 testHashTable.put(3, 'Mary')
 testHashTable.put(3, 'Marriana')
+testHashTable.put(6, 'Hello')
+const first = testHashTable.get(3)
+console.log('get at key 3', first)
+const second = testHashTable.get(6)
+console.log('get at key 6', second)
+const third = testHashTable.get(10)
+console.log('get at key not exist', third)
+
+testHashTable.remove(6)
+testHashTable.remove(8)
