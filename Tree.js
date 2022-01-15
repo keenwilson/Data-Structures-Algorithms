@@ -250,6 +250,26 @@ class Tree {
         this._isBinarySearchTree(node.rightChild, node.value + 1, max)
       )
     }
+
+    this.getNodesAtDistance = (distance) => {
+      let list = []
+      this._getNodesAtDistance(this.root, distance, list)
+      return list
+    }
+
+    this._getNodesAtDistance = (root, distance, list) => {
+      if (!root) {
+        return
+      }
+      // Base Condition
+      if (root && distance == 0) {
+        list.push(root.value)
+        return
+      }
+
+      this._getNodesAtDistance(root.leftChild, distance - 1, list)
+      this._getNodesAtDistance(root.rightChild, distance - 1, list)
+    }
   }
 }
 
@@ -266,14 +286,16 @@ testArray.forEach(binarySearchTree.insert)
 // const min = binarySearchTree.min()
 // console.log('min', min)
 
-// const tree1 = new Tree()
-// tree1.insert(7)
-// tree1.insert(4)
-// tree1.insert(9)
-// tree1.insert(1)
-// tree1.insert(6)
-// tree1.insert(8)
-// tree1.insert(10)
+const tree1 = new Tree()
+tree1.insert(7)
+tree1.insert(4)
+tree1.insert(9)
+tree1.insert(1)
+tree1.insert(6)
+tree1.insert(8)
+tree1.insert(10)
+const list = tree1.getNodesAtDistance(2)
+console.log('list', list)
 
 // const tree2 = new Tree()
 // tree2.insert(7)
@@ -287,13 +309,13 @@ testArray.forEach(binarySearchTree.insert)
 // const isEqual = tree1.equals(null)
 // console.log('isEqual', isEqual)
 
-// const tree3 = new Tree()
-// tree3.insert(20)
-// tree3.insert(10)
-// tree3.insert(30)
-// tree3.insert(21)
-// tree3.insert(6)
-// tree3.insert(3)
-// tree3.insert(4)
-// tree3.swapRoot()
+const tree3 = new Tree()
+tree3.insert(20)
+tree3.insert(10)
+tree3.insert(30)
+tree3.insert(21)
+tree3.insert(6)
+tree3.insert(3)
+tree3.insert(4)
+tree3.swapRoot()
 // console.log('isBinarySearchTree', tree3.isBinarySearchTree())
