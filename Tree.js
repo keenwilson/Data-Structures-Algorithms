@@ -123,6 +123,27 @@ class Tree {
       // root (print)
       console.log(`_traversePostOrder found root (${root.value})`)
     }
+
+    this.height = () => {
+      return this._height(this.root)
+    }
+
+    this._height = (root) => {
+      // Base Condition
+      if (!root) {
+        return -1
+      }
+      // If we reach the leaf node
+      if (!root.leftChild && root.rightChild) {
+        return 0
+      }
+      const max = Math.max(
+        this._height(root.leftChild),
+        this._height(root.rightChild),
+      )
+      console.log('max at value', root.value, max)
+      return 1 + max
+    }
   }
 }
 
@@ -132,4 +153,6 @@ testArray.forEach(binarySearchTree.insert)
 
 // binarySearchTree.traversePreOrder()
 // binarySearchTree.traverseInOrder()
-binarySearchTree.traversePostOrder()
+// binarySearchTree.traversePostOrder()
+const height = binarySearchTree.height()
+console.log('height', height)
