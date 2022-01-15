@@ -71,12 +71,65 @@ class Tree {
       }
       return false
     }
+
+    this.traversePreOrder = () => {
+      this._traversePreOrder(this.root)
+    }
+
+    this._traversePreOrder = (root) => {
+      // Base Condition to avoid a cycle
+      if (!root) {
+        console.log('That was the leaf: stop going forward, go back!')
+        return
+      }
+      // root (print)
+      console.log(`_traversePreOrder found root (${root.value})`)
+      // left, recursively call the method itself
+      this._traversePreOrder(root.leftChild)
+      // right
+      this._traversePreOrder(root.rightChild)
+    }
+
+    this.traverseInOrder = () => {
+      this._traverseInOrder(this.root)
+    }
+    this._traverseInOrder = (root) => {
+      // Base Condition to avoid a cycle
+      if (!root) {
+        console.log('That was the leaf: stop going forward, go back!')
+        return
+      }
+      // left, recursively call the method itself
+      this._traverseInOrder(root.leftChild)
+      // root (print)
+      console.log(`_traverseInOrder found root (${root.value})`)
+      // right
+      this._traverseInOrder(root.rightChild)
+    }
+
+    this.traversePostOrder = () => {
+      this._traversePostOrder(this.root)
+    }
+    this._traversePostOrder = (root) => {
+      // Base Condition to avoid a cycle
+      if (!root) {
+        console.log('That was the leaf: stop going forward, go back!')
+        return
+      }
+      // left, recursively call the method itself
+      this._traversePostOrder(root.leftChild)
+      // right
+      this._traversePostOrder(root.rightChild)
+      // root (print)
+      console.log(`_traversePostOrder found root (${root.value})`)
+    }
   }
 }
 
 const binarySearchTree = new Tree()
-const testArray = [10, 5, 15, 6, 1, 8, 12, 18, 17]
+const testArray = [7, 4, 9, 1, 6, 8, 10]
 testArray.forEach(binarySearchTree.insert)
 
-console.log('find 17', binarySearchTree.find(17))
-console.log('find 39', binarySearchTree.find(39))
+// binarySearchTree.traversePreOrder()
+// binarySearchTree.traverseInOrder()
+binarySearchTree.traversePostOrder()
