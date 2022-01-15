@@ -187,6 +187,30 @@ class Tree {
 
       return Math.min(Math.min(left, right), root.value)
     }
+
+    this.equals = (other) => {
+      // Compare two nodes, make sure are equal
+      // Then use recursion to make sure left and right sub trees are equal
+      return this._equals(this.root, other.root)
+    }
+
+    // Pre-order traversal
+    // root
+    // left
+    // right
+    this._equals = (first, second) => {
+      if (!first && !second) {
+        return true
+      }
+      if (first && second) {
+        return (
+          first.value == second.value &&
+          this._equals(first.leftChild, second.leftChild) &&
+          this._equals(first.rightChild, second.rightChild)
+        )
+      }
+      return false
+    }
   }
 }
 
@@ -197,8 +221,29 @@ testArray.forEach(binarySearchTree.insert)
 // binarySearchTree.traversePreOrder()
 // binarySearchTree.traverseInOrder()
 // binarySearchTree.traversePostOrder()
-const height = binarySearchTree.height()
-console.log('height', height)
+// const height = binarySearchTree.height()
+// console.log('height', height)
 
-const min = binarySearchTree.min()
-console.log('min', min)
+// const min = binarySearchTree.min()
+// console.log('min', min)
+
+const tree1 = new Tree()
+tree1.insert(7)
+tree1.insert(4)
+tree1.insert(9)
+tree1.insert(1)
+tree1.insert(6)
+tree1.insert(8)
+tree1.insert(10)
+
+const tree2 = new Tree()
+tree2.insert(7)
+tree2.insert(4)
+tree2.insert(9)
+tree2.insert(1)
+tree2.insert(6)
+tree2.insert(8)
+tree2.insert(10)
+
+const isEqual = tree1.equals(tree2)
+console.log('isEqual', isEqual)
