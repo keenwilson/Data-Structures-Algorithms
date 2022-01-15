@@ -36,21 +36,12 @@ class AVLTree {
       // On the way back up
       // Update the height of every node
       // until we get to the root node
-      root.height =
-        Math.max(this._height(root.leftChild), this._height(root.rightChild)) +
-        1
-
+      this._setHeight(root)
       // balance factor
       //  > 1 => left heavy
       //  < -1 => right heavy
-      let balanceFactor = this._balanceFactor(root)
-      if (this._isLeftHeavy(root)) {
-        console.log(root.value, 'is left heavy')
-      } else if (this._isRightHeavy(root)) {
-        console.log(root.value, 'is right heavy')
-      }
 
-      return root
+      return this._balance(root)
     }
 
     this._height = (node) => {
@@ -70,12 +61,63 @@ class AVLTree {
         ? 0
         : this._height(node.leftChild) - this._height(node.rightChild)
     }
+
+    this._balance = (root) => {
+      if (this._isLeftHeavy(root)) {
+        console.log(root.value, 'is left heavy')
+        if (this._balanceFactor(root.leftChild) < 0) {
+          root.leftChild = this._rotateLeft(root.leftChild)
+        }
+        // Since the root is left heavy, perform right rotation
+        return this._rotateRigh(root)
+      } else if (this._isRightHeavy(root)) {
+        if (this._balanceFactor(root.rightChild) > 0) {
+          root.rightChild = this._rotateRight(root.rightChild)
+        }
+        // Since it is right heavy, perform left rotation
+        console.log('left rotate on', root.value)
+        return this._rotateLeft(root)
+      }
+
+      return root
+    }
+
+    this._setHeight = (node) => {
+      node.height =
+        Math.max(this._height(node.leftChild), this._height(node.rightChild)) +
+        1
+    }
+
+    this._rotateLeft = (root) => {
+      // Get a reference to the right child of a root node
+      let newRoot = root.rightChild
+      // Perform rotation
+      root.rightChild = newRoot.leftChild
+      newRoot.leftChild = root
+
+      // Reset the height
+      this._setHeight(root)
+      this._setHeight(newRoot)
+
+      return newRoot
+    }
+    this._rotateRight = (root) => {
+      // Get a reference to the right child of a root node
+      let newRoot = root.leftChild
+      // Perform rotation
+      root.leftChild = newRoot.rightChild
+      newRoot.rightChild = root
+
+      // Reset the height
+      this._setHeight(root)
+      this._setHeight(newRoot)
+
+      return newRoot
+    }
   }
 }
 
 let tree = new AVLTree()
+tree.insert(10)
 tree.insert(30)
 tree.insert(20)
-tree.insert(10)
-
-console.log('tree.root', tree.root)
