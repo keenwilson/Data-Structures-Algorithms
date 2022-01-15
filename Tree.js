@@ -141,7 +141,7 @@ class Tree {
         this._height(root.leftChild),
         this._height(root.rightChild),
       )
-      console.log('max at value', root.value, max)
+
       return 1 + max
     }
 
@@ -270,6 +270,14 @@ class Tree {
       this._getNodesAtDistance(root.leftChild, distance - 1, list)
       this._getNodesAtDistance(root.rightChild, distance - 1, list)
     }
+
+    this.traverseLevelOrder = () => {
+      for (var i = 0; i <= this.height(); i++) {
+        for (let value of this.getNodesAtDistance(i)) {
+          console.log(value)
+        }
+      }
+    }
   }
 }
 
@@ -294,8 +302,9 @@ tree1.insert(1)
 tree1.insert(6)
 tree1.insert(8)
 tree1.insert(10)
-const list = tree1.getNodesAtDistance(2)
-console.log('list', list)
+// const list = tree1.getNodesAtDistance(2)
+// console.log('list', list)
+tree1.traverseLevelOrder()
 
 // const tree2 = new Tree()
 // tree2.insert(7)
