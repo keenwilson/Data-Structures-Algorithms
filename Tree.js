@@ -189,6 +189,9 @@ class Tree {
     }
 
     this.equals = (other) => {
+      if (!other) {
+        return false
+      }
       // Compare two nodes, make sure are equal
       // Then use recursion to make sure left and right sub trees are equal
       return this._equals(this.root, other.root)
@@ -211,6 +214,42 @@ class Tree {
       }
       return false
     }
+
+    this.swapRoot = () => {
+      let temp = this.root.leftChild
+      this.root.leftChild = this.root.rightChild
+      this.root.rightChild = temp
+    }
+
+    this.isBinarySearchTree = () => {
+      // Traverse the tree, visit each node only one
+      // Check if the value is in the possible range
+      return this._isBinarySearchTree(
+        this.root,
+        Number.MIN_VALUE,
+        Number.MAX_VALUE,
+      )
+    }
+
+    this._isBinarySearchTree = (node, min, max) => {
+      if (!node) {
+        console.log('Empty tree is binary search tree')
+        return true
+      }
+      // root
+      console.log('_isBinarySearchTree receive', min, node.value, max)
+      console.log('node.value < min ', node.value < min)
+      console.log('node.value > max', node.value > max)
+      if (node.value < min || node.value > max) {
+        console.log('out of range')
+        return false
+      }
+
+      return (
+        this._isBinarySearchTree(node.leftChild, min, node.value - 1) &&
+        this._isBinarySearchTree(node.rightChild, node.value + 1, max)
+      )
+    }
   }
 }
 
@@ -227,23 +266,34 @@ testArray.forEach(binarySearchTree.insert)
 // const min = binarySearchTree.min()
 // console.log('min', min)
 
-const tree1 = new Tree()
-tree1.insert(7)
-tree1.insert(4)
-tree1.insert(9)
-tree1.insert(1)
-tree1.insert(6)
-tree1.insert(8)
-tree1.insert(10)
+// const tree1 = new Tree()
+// tree1.insert(7)
+// tree1.insert(4)
+// tree1.insert(9)
+// tree1.insert(1)
+// tree1.insert(6)
+// tree1.insert(8)
+// tree1.insert(10)
 
-const tree2 = new Tree()
-tree2.insert(7)
-tree2.insert(4)
-tree2.insert(9)
-tree2.insert(1)
-tree2.insert(6)
-tree2.insert(8)
-tree2.insert(10)
+// const tree2 = new Tree()
+// tree2.insert(7)
+// tree2.insert(4)
+// tree2.insert(9)
+// tree2.insert(1)
+// tree2.insert(6)
+// tree2.insert(8)
+// tree2.insert(10)
 
-const isEqual = tree1.equals(tree2)
-console.log('isEqual', isEqual)
+// const isEqual = tree1.equals(null)
+// console.log('isEqual', isEqual)
+
+// const tree3 = new Tree()
+// tree3.insert(20)
+// tree3.insert(10)
+// tree3.insert(30)
+// tree3.insert(21)
+// tree3.insert(6)
+// tree3.insert(3)
+// tree3.insert(4)
+// tree3.swapRoot()
+// console.log('isBinarySearchTree', tree3.isBinarySearchTree())
