@@ -40,6 +40,16 @@ class AVLTree {
         Math.max(this._height(root.leftChild), this._height(root.rightChild)) +
         1
 
+      // balance factor
+      //  > 1 => left heavy
+      //  < -1 => right heavy
+      let balanceFactor = this._balanceFactor(root)
+      if (this._isLeftHeavy(root)) {
+        console.log(root.value, 'is left heavy')
+      } else if (this._isRightHeavy(root)) {
+        console.log(root.value, 'is right heavy')
+      }
+
       return root
     }
 
@@ -47,11 +57,25 @@ class AVLTree {
       // the height of an empty tree is -1
       return !node ? -1 : node.height
     }
+
+    this._isLeftHeavy = (node) => {
+      return this._balanceFactor(node) > 1
+    }
+    this._isRightHeavy = (node) => {
+      return this._balanceFactor(node) < -1
+    }
+    this._balanceFactor = (node) => {
+      // An empty tree is balance
+      return !node
+        ? 0
+        : this._height(node.leftChild) - this._height(node.rightChild)
+    }
   }
 }
 
 let tree = new AVLTree()
-tree.insert(10)
-tree.insert(20)
 tree.insert(30)
+tree.insert(20)
+tree.insert(10)
+
 console.log('tree.root', tree.root)
