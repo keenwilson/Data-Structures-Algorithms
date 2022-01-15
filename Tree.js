@@ -134,7 +134,7 @@ class Tree {
         return -1
       }
       // If we reach the leaf node
-      if (!root.leftChild && root.rightChild) {
+      if (this._isLeaf(root)) {
         return 0
       }
       const max = Math.max(
@@ -143,6 +143,49 @@ class Tree {
       )
       console.log('max at value', root.value, max)
       return 1 + max
+    }
+
+    this._isLeaf = (node) => {
+      return !node?.leftChild && !node?.rightChild
+    }
+
+    // O(n)
+    this.min = () => {
+      return this._min(this.root)
+    }
+
+    //  O(log n)
+    this.minForBinarySearchTree = () => {
+      if (this.root) {
+        throw Utils.CustomException(
+          'We cannot find a minimum value in an empty tree',
+        )
+      }
+      let current = this.root
+      let last = current
+      while (current) {
+        last = current
+        // Keep going down the left subtree
+        current = current.leftChild
+      }
+      // return the leftmost child
+      return last.value
+    }
+
+    this._min = (root) => {
+      if (!root) {
+        return 0
+      }
+      // If we get to the leaf node
+      // return the value of that node itself
+      if (this._isLeaf(root)) {
+        return root.value
+      }
+
+      let left = this._min(root.leftChild)
+      let right = this._min(root.rightChild)
+
+      return Math.min(Math.min(left, right), root.value)
     }
   }
 }
@@ -156,3 +199,6 @@ testArray.forEach(binarySearchTree.insert)
 // binarySearchTree.traversePostOrder()
 const height = binarySearchTree.height()
 console.log('height', height)
+
+const min = binarySearchTree.min()
+console.log('min', min)
