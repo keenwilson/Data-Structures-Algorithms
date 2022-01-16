@@ -125,11 +125,93 @@ class Heap {
   }
 }
 
-const heap = new Heap()
-heap.insert(10)
-heap.insert(5)
-heap.insert(17)
-heap.insert(4)
-heap.insert(22)
-const root = heap.remove()
-console.log('removed root', root)
+// const heap = new Heap()
+// heap.insert(10)
+// heap.insert(5)
+// heap.insert(17)
+// heap.insert(4)
+// heap.insert(22)
+
+// const maxHeap = new Heap()
+// const numbers = [5,3,10,1,4,2]
+// for (let n of numbers) {
+//   maxHeap.insert(n)
+// }
+// for (let i = 0; i < numbers.length; i++ ) {
+//   numbers[i] = maxHeap.remove()
+// }
+// console.log(numbers)
+
+class PriorityQueueWithHeap {
+  constructor() {
+    this.heap = new Heap()
+  }
+
+  enqueue(item) {
+    heap.insert(item)
+  }
+
+  dequeue() {
+    return this.heap.remove()
+  }
+
+  isEmpty() {
+    return this.heap.isEmpty()
+  }
+}
+
+// transforming an array into a heap
+// In a heap, every node should be greater than or equal to both children
+class MaxHeap {
+  constructor() {}
+  heapify(array) {
+    // loop over an array
+    // make sure number is in the right position
+    // else, bubble it down
+    for (let i = 0; i < array.length; i++) {
+      this._heapify(array, i)
+    }
+  }
+
+  _heapify(array, index) {
+    // first assume the root is the largest
+    let largerIndex = index
+
+    let leftIndex = parseInt(index * 2 + 1)
+    // make sure that leftIndex and rightIndex don't fall outside of an array
+    if (leftIndex < array.length && array[leftIndex] > array[largerIndex]) {
+      // if left child is greater
+      // reset a larger index to point to a left child
+      largerIndex = leftIndex
+    }
+
+    let rightIndex = parseInt(index * 2 + 2)
+    if (rightIndex < array.length && array[rightIndex] > array[largerIndex]) {
+      // if right child is greater than current index
+      // reset a larger index to point to a right child
+      largerIndex = rightIndex
+    }
+
+    if (index == largerIndex) {
+      // this item is in the right position
+      // our recurssion is terminated here
+      return
+    }
+
+    // swap
+    this._swap(array, index, largerIndex)
+    // recursively goes down the tree
+    this._heapify(array, largerIndex)
+  }
+
+  _swap(array, first, second) {
+    let temp = array[first]
+    array[first] = array[second]
+    array[second] = temp
+  }
+}
+
+const maxHeap = new MaxHeap()
+let numbers = [5, 3, 8, 4, 1, 2]
+maxHeap.heapify(numbers)
+console.log('numbers', numbers)
