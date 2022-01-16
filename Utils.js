@@ -6,4 +6,5 @@ function CustomException(message) {
 
 CustomException.prototype = Object.create(Error.prototype)
 
-exports.CustomException = CustomException
+const _CustomException = CustomException
+export { _CustomException as CustomException }
