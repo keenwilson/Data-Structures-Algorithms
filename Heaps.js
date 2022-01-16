@@ -162,13 +162,19 @@ class PriorityQueueWithHeap {
 
 // transforming an array into a heap
 // In a heap, every node should be greater than or equal to both children
+// optimization: we don't have to perform this operation on the leaf node
+// the taller a tree is, the more recursion we will have
+// change the direction of the for loop to start at the last parent nde,
+// we will have fewer recursion
 class MaxHeap {
   constructor() {}
   heapify(array) {
     // loop over an array
     // make sure number is in the right position
     // else, bubble it down
-    for (let i = 0; i < array.length; i++) {
+    // use index of the last parent
+    let lastParentIndex = array.length / 2 - 1
+    for (let i = lastParentIndex; i >= 0; i--) {
       this._heapify(array, i)
     }
   }
