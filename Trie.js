@@ -22,6 +22,14 @@ class Node {
   getChildren = function () {
     return Object.keys(this.children)
   }
+
+  hasChildren = function () {
+    return Object.keys(this.children).length !== 0
+  }
+
+  removeChild = function (ch) {
+    this.children.remove(ch)
+  }
 }
 
 class Trie {
@@ -77,9 +85,39 @@ class Trie {
       this._traverse(root.children[child])
     }
   }
+
+  remove(word) {
+    if (!word) {
+      return
+    }
+    this._remove(this.root, word, 0)
+  }
+  _remove(root, word, index) {
+    if (index === word.length) {
+      console.log('terminate recursion', root.value)
+      root.isEndOfWord = false
+      return
+    }
+    const ch = word.charAt(index)
+    console.log('word.charAt(index)', ch)
+
+    const child = root.getChild(ch)
+    if (!child) {
+      return
+    }
+
+    this._remove(child, word, index + 1)
+
+    // check to see if this child node has any children
+    if (!child.hasChildren() && !child.isEndOfWord) {
+      root.removeChild(ch)
+    }
+    console.log(root.value)
+  }
 }
 
 const trie = new Trie()
+trie.insert('car')
 trie.insert('care')
 // trie.insert('cat')
 // trie.insert('canada')
@@ -91,4 +129,6 @@ trie.insert('care')
 // trie.insert('fox')
 // trie.insert('fiber')
 console.log('DONE', trie.contains(null))
-trie.traverse()
+trie.remove('car')
+trie.contains('car')
+trie.contains('care')
