@@ -18,6 +18,10 @@ class Node {
   getChild = function (ch) {
     return this.children[ch]
   }
+
+  getChildren = function () {
+    return Object.keys(this.children)
+  }
 }
 
 class Trie {
@@ -48,7 +52,7 @@ class Trie {
     }
 
     word = word.toLowerCase()
-    
+
     let current = this.root
 
     for (let ch of word) {
@@ -61,10 +65,30 @@ class Trie {
     }
     return current.isEndOfWord
   }
+
+  traverse() {
+    this._traverse(this.root)
+  }
+
+  _traverse(root) {
+    // pre-order: visit the root first
+    console.log(root.value)
+    for (let child of root.getChildren()) {
+      this._traverse(root.children[child])
+    }
+  }
 }
 
 const trie = new Trie()
-trie.insert('cat')
-trie.insert('canada')
-
+trie.insert('care')
+// trie.insert('cat')
+// trie.insert('canada')
+// trie.insert('care')
+// trie.insert('dog')
+// trie.insert('denmark')
+// trie.insert('door')
+// trie.insert('elephant')
+// trie.insert('fox')
+// trie.insert('fiber')
 console.log('DONE', trie.contains(null))
+trie.traverse()
